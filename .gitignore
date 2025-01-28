@@ -1,4 +1,21 @@
+# Ignore the .env file (contains sensitive data)
 .env
+
+# Ignore virtual environment directories
+venv/
+.venv/
+env/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+
+# Ignore generated audio files
 audio.mp3
+
+# Ignore temporary files
 temp_image.jpg
-.gitignore
