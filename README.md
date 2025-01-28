@@ -70,7 +70,6 @@ This project takes an image, extracts its story, generates a creative narrative,
 
 ## 🎥 **Demo**  
 ![Demo GIF](Guild_gif.gif)
-
 ---
 
 ## 🤝 **Contributing**  
