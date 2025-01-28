@@ -69,8 +69,7 @@ This project takes an image, extracts its story, generates a creative narrative,
 ---
 
 ## 🎥 **Demo**  
-![Demo GIF](https://media.giphy.com/media/your-demo-gif-url.gif)  
-*Watch the magic happen!* ✨  
+![Demo GIF](Guild_gif.gif)
 
 ---
 
