@@ -1,24 +1,24 @@
+import warnings
 from dotenv import find_dotenv, load_dotenv
 from transformers import pipeline
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
 import requests
 import os
-import warnings
-
-load_dotenv(find_dotenv())
-HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
+import streamlit as st
 
 # Suppress the specific warning about the slow image processor
 warnings.filterwarnings("ignore", message="Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model.")
 
+load_dotenv(find_dotenv())
+HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
 
 # Img2Text
 def img2text(url):
     image_to_text = pipeline(
         "image-to-text", 
         model="Salesforce/blip-image-captioning-base", 
-        use_fast=True  # Suppress the warning
+        use_fast=True  # Explicitly set use_fast=True
     )
     text = image_to_text(url)[0]['generated_text']
     print(text)
@@ -36,7 +36,7 @@ def generate_story(scenario):
     prompt = ChatPromptTemplate.from_template(template)
 
     # Initialize the Ollama model
-    model = OllamaLLM(model="llama3.2:1b")
+    model = OllamaLLM(model="llama3.2")
 
     # Create a chain of the prompt and model
     chain = prompt | model
@@ -67,7 +67,37 @@ def text2speech(message):
     else:
         print(f"Error: {response.status_code}, {response.text}")
 
-# Main workflow
-scenario = img2text("photo.jpg")  # Replace with your image path
-story = generate_story(scenario)
-text2speech(story)
+# Streamlit App
+def main():
+    st.title("Image to Story and Audio Generator")
+
+    # Upload image
+    uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+    if uploaded_file is not None:
+        # Display the uploaded image
+        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+
+        # Save the uploaded image temporarily
+        with open("temp_image.jpg", "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        # Generate story from the image
+        scenario = img2text("temp_image.jpg")
+        st.write("**Generated Scenario:**")
+        st.write(scenario)
+
+        # Generate story using the scenario
+        story = generate_story(scenario)
+        st.write("**Generated Story:**")
+        st.write(story)
+
+        # Generate audio from the story
+        text2speech(story)
+
+        # Display the audio player
+        st.write("**Generated Audio:**")
+        st.audio("audio.mp3")
+
+# Run the Streamlit app
+if __name__ == "__main__":
+    main()

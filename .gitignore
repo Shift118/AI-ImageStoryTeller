@@ -1,2 +1,4 @@
 .env
 audio.mp3
+temp_image.jpg
+.gitignore
