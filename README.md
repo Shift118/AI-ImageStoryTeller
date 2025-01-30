@@ -46,7 +46,7 @@ This project takes an image, extracts its story, generates a creative narrative,
 ### **Installation**  
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/your-username/Img2Story2Audio.git
+   git clone https://github.com/Shift118/AI-ImageStoryTeller.git
    cd Img2Story2Audio
    ```
 
